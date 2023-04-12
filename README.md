@@ -43,36 +43,36 @@ BrainstormBoost/
 ```
 
 ## Installation and Setup
-Clone this repository to your local machine.
 
+1. Clone this repository to your local machine.
 ```bash
 git clone https://github.com/yourusername/BrainstormBoost.git
 ```
-Create a virtual environment and activate it.
+2. Create a virtual environment and activate it.
 ```bash
 python3 -m venv venv
 source venv/bin/activate
-Install the required packages from requirements.txt.
 ```
 
+3. Install the required packages from requirements.txt.
 ```bash
 pip install -r requirements.txt
-Set up your MySQL database and update config.py with your database credentials.
 ```
+4. Set up your MySQL database and update config.py with your database credentials.
 
-Run the database migrations.
+5. Run the database migrations.
 ```bash
 flask db upgrade
 ```
 
-Set the required environment variables for Flask and the OpenAI API key.
+6. Set the required environment variables for Flask and the OpenAI API key.
 ```bash
 export FLASK_APP=app.py
 export FLASK_ENV=development
 export OPENAI_API_KEY=your_openai_api_key
 ```
 
-Start the Flask development server.
+7. Start the Flask development server.
 ```bash
 flask run
 ```

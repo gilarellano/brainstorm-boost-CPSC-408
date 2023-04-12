@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pyc
+
+# Flask
+instance/
+
+# Virtual environment
+venv/
+*.egg-info/
+dist/
+*.egg
+
+# Development files
+*.log
+*.sqlite
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# Operating system
+.DS_Store
+Thumbs.db
+
