@@ -1,0 +1,87 @@
+import os, sys, re
+import dotenv
+import openai
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from models.Group import Group
+from models.Member import Member
+from models.Idea import Idea
+
+# Class Generator
+class Generator:
+    def __init__(self, group = Group()):
+        self.group = group 
+        self.prompt = ""
+        self.response = ""
+        self.ideas = []
+
+    def CreatePrompt(self):
+        header = ("Please generate 5 group project ideas in a numbered list. "
+              "For each idea, provide a title and a brief description. "
+              "Consider the unique skills and interests of each group member "
+              "to ensure the projects are engaging and relevant. "
+              "Below are the project description and details of each group member:\n\n")
+
+        project_description = f"Project Description: {self.group.projectDesc}\n\n"
+
+        members_string = ""
+        for i, member in enumerate(self.group.members, start=1):
+            skills = ', '.join(member.skills)
+            interests = ', '.join(member.interests)
+            members_string += f"Member {i}, {member.name}:\nSkills: {skills}\nInterests: {interests}\n\n"
+
+        self.prompt = header + project_description + members_string
+
+    def Generate(self):
+        dotenv.load_dotenv(dotenv.find_dotenv())
+        try:
+            openai.api_key = os.getenv('OPENAI_API_KEY')
+            response = openai.Completion.create(
+                model= "text-davinci-003",
+                max_tokens= 2048,
+                prompt= self.prompt,
+                temperature= 0.0,
+            )
+            self.response = response.choices[0].text
+        except Exception as e:
+            print(f"Error occurred while generating ideas: {e}")
+            self.response = ""
+
+    def ParseIdeas(self):
+        paragraphs = self.response.strip().split("\n\n")
+        for paragraph in paragraphs:
+            match = re.match(r'^\d+\.\s+(.*):\s*(.*)$', paragraph)
+            if match:
+                title = match.group(1)
+                description = match.group(2)
+                idea = Idea(title, description)
+                self.ideas.append(idea)
+
+if __name__ == '__main__':
+    # Test GeneratorService.py class
+    testGroup = Group("Data Science Project")
+    testGroup.projectDesc = "Find a dataset and create a technical report on a subject"
+    testGroup.AddMember(Member("Gilberto Arellano", ["C++", "Data Structures"], ["Video Games", "Soccer"]))
+    testGroup.AddMember(Member("Minna Yu", ["Web Design"], ["Data Science"]))
+
+    fooGenerator = Generator(testGroup)
+    fooGenerator.CreatePrompt()
+
+    fooGenerator.response = '''\
+1. Video Game Industry Analysis: Using a dataset of video game sales, create a technical report analyzing the trends in the video game industry. Gilberto can use his C++ and data structure skills to analyze the data, while Minna can use her web design skills to create a visually appealing report.
+
+2. Soccer Performance Analysis: Using a dataset of soccer match results, create a technical report analyzing the performance of teams and players. Gilberto can use his C++ and data structure skills to analyze the data, while Minna can use her web design skills to create a visually appealing report.
+
+3. Data Science Project: Using a dataset of your choice, create a technical report analyzing the data. Gilberto can use his C++ and data structure skills to analyze the data, while Minna can use her web design skills to create a visually appealing report.
+
+4. Social Media Analysis: Using a dataset of social media posts, create a technical report analyzing the trends in social media usage. Gilberto can use his C++ and data structure skills to analyze the data, while Minna can use her web design skills to create a visually appealing report.
+
+5. Online Shopping Analysis: Using a dataset of online shopping transactions, create a technical report analyzing the trends in online shopping. Gilberto can use his C++ and data structure skills to analyze the data, while Minna can use her web design skills to create a visually appealing report.
+'''
+    #fooGenerator.Generate()
+    fooGenerator.ParseIdeas()
+    print(len(fooGenerator.ideas))
+    for idea in fooGenerator.ideas:
+        print(idea)
+
+    print("Successful GeneratorService.py Test")

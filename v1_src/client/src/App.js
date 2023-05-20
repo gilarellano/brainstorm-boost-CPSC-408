@@ -6,7 +6,9 @@ import Generator from './Generator';
 import NavBar from './NavBar';
 import Login from './Login';
 import Dashboard from './Dashboard';
-import { Routes, Route, Link, BrowserRouter } from 'react-router-dom';
+import PrivateRoute from './PrivateRoute';
+//import { Routes, Route, Link, BrowserRouter } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import axios from 'axios';
 
 function App() {
@@ -42,18 +44,14 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
-        {isAuthenticated ? (
-          <>
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/generator" element={<Generator />} />
-            <Route path="/groups" element={<Generator />} />
-          </>
-        ) : (
-          <Route path="/login" element={<Login onLogin={onLogin} />} />
-        )}
+        <Route path="/login" element={<Login onLogin={onLogin} />} />
+        <Route path="/dashboard" element={isAuthenticated ? <Dashboard user={user} /> : <Navigate to="/login" replace />} />
+        <Route path="/generator" element={isAuthenticated ? <Generator /> : <Navigate to="/login" replace />} />
+        <Route path="/groups" element={isAuthenticated ? <Generator /> : <Navigate to="/login" replace />} />
       </Routes>
     </div>
   );
+
 }
 
 export default App;
