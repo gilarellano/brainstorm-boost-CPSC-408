@@ -1,27 +1,33 @@
+# .gitignore
+
 # Python
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
 *.pyc
-
-# Flask
-instance/
-
-# Virtual environment
-venv/
+*.pyo
+*.pyd
 *.egg-info/
 dist/
+build/
+venv/
 *.egg
-
-# Development files
 *.log
+*.sql
 *.sqlite
 
-# Jupyter Notebook
-.ipynb_checkpoints/
+# Node
+node_modules/
+package-lock.json
 
-# Operating system
+# Flask
+flask_session/
+
+# IDE - VS Code
+.vscode/
+*.code-workspace
+
+# OS Files
 .DS_Store
 Thumbs.db
-

@@ -1,4 +1,5 @@
 # Project Description
+#### By: Gilberto Arellano, Luis Rivas, Darron Kotoyan
 BrainstormBoost is a novel software program aimed at facilitating effective group idea generation. Leveraging the impressive AI capabilities of OpenAI's GPT model, the application allows users to send detailed information about their group, including each member's skills, interests, and the group's project proposal. The AI then produces five potential ideas, which the group members can vote on to decide on a course of action that best suits everyone.
 
 # Project Structure and Progress
@@ -21,8 +22,6 @@ With this version, we have managed to establish a robust back-end structure. We 
 The next phase of our project will involve integrating the back-end with the front-end. With the database and business logic in place, we're now well equipped to develop a front-end that provides an intuitive and seamless user experience.
 
 We also plan to improve the AI idea generation feature, making the outputs more tailored and relevant to the specific inputs provided by the user.
-
-Stay tuned for more updates as we continue to enhance and expand the functionality of BrainstormBoost!
 
 ## License
 This project is licensed under the MIT License. See the LICENSE file for more information.
